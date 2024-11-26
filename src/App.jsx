@@ -1,3 +1,4 @@
+import { useAddPost } from "./hooks/Axios/useAddPost";
 import { useCart } from "./hooks/useCart";
 import { useFetch } from "./hooks/useFetch";
 import { useForm } from "./hooks/useForm";
@@ -48,6 +49,24 @@ function App() {
     { id: 2, name: "Product 2", price: 200, quantity: 2 },
     { id: 3, name: "Product 3", price: 300, quantity: 3 },
   ];
+
+  // ===========
+  // Axios Class
+  // ===========
+
+  const requestData = {
+    title: "foo",
+    body: "bar",
+    userId: 1,
+  };
+
+  // For Get Method
+  //const { dataA, errorA, isLoadingA } = useAddPost("/users");
+  // For Post Method
+  /*const { dataA, errorA, isLoadingA } = useAddPost("/posts", requestData);*/
+  // For Put Method & patch Method
+  const { dataA, errorA, isLoadingA } = useAddPost("/posts/1", requestData);
+  console.log(dataA);
 
   // --------------------------------------------------------
   return (
