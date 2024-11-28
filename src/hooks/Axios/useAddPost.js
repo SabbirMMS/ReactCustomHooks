@@ -11,6 +11,30 @@ export const useAddPost = (url, requestData) => {
     () => {
       const fetchData = async () => {
         try {
+          // Using Interceptor
+          instance.interceptors.request.use(
+            (config) => {
+              config.headers["Auth"] = "Sabbir";
+              return config;
+            },
+            (error) => {
+              console.error("Error", error);
+              // Handle error
+              return Promise.reject(error);
+            }
+          );
+          instance.interceptors.response.use(
+            (response) => {
+              response.headers["Auth"] = "Sabbir";
+              return response;
+            },
+            (error) => {
+              console.error("Error", error);
+              // Handle error
+              return Promise.reject(error);
+            }
+          );
+
           // Get Method
           /*const response = await instance.get(url);*/
           // Post Method
