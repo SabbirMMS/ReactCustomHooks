@@ -1,8 +1,10 @@
+// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAddPost } from "./hooks/Axios/useAddPost";
 import { useCart } from "./hooks/useCart";
 import { useFetch } from "./hooks/useFetch";
 import { useForm } from "./hooks/useForm";
 import { useWindowSize } from "./hooks/useWindowSize";
+import GetPosts from "./reactQuery/GetPosts";
 
 function App() {
   {
@@ -67,6 +69,9 @@ function App() {
   // For Put Method & patch Method
   const { dataA, errorA, isLoadingA } = useAddPost("/posts/1", requestData);
   console.log(dataA);
+
+  // using Tanstack React Query
+  // const queryClient = new QueryClient();
 
   // --------------------------------------------------------
   return (
@@ -189,6 +194,15 @@ function App() {
           <h3>Total Price: {getTotalPrice()}</h3>
           <button onClick={clearCart}>Clear Cart</button>
         </div>
+      </div>
+
+      {/* using Tanstack React Query */}
+      <h2>Tanstack React Query</h2>
+      <hr />
+      <div>
+        {/* Wrapped with QueryClientProvider in the main */}
+        <h4>Shopping Items</h4>
+        <GetPosts />
       </div>
     </div>
   );
