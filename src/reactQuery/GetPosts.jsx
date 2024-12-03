@@ -33,11 +33,11 @@ function GetPosts() {
       queryCLient.setQueryData(["posts"], (oldData) => [...oldData, response.data]);
     },*/
 
-    // onMutate is a optimistic Update method which updates data in cache first and then to update
-    onMutate: (newPost) => {
+      // onMutate is a optimistic Update method which updates data in cache first and then to update
+    onMutate: async (newPost) => {
       // Using Chat-GPT...
       // Cancel any outgoing queries to prevent race conditions
-      //await queryCLient.cancelQueries(["posts"]);
+      await queryCLient.cancelQueries(["posts"]);
       // Snapshot the previous value for rollback in case of an error
       const previousData = queryCLient.getQueryData(["posts"]);
       // Optimistically update the cache with the new post
@@ -47,6 +47,14 @@ function GetPosts() {
       // Return a rollback function in case of mutation failure
       return { previousData };
     },
+    onError: (err, newTitle, context) => {
+      // Rollback to the previous state
+      queryCLient.setQueryData(["posts"], () => context.previousData);
+    },
+    onSettled: () => {
+      queryCLient.invalidateQueries({ queryKey: ["posts"] });
+    },
+
   });
 
   // useMutationEnd
